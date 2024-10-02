@@ -1,0 +1,18 @@
+<style>
+  .list-group-item {
+      display: flex;
+      justify-content: space-between;
+  }
+  .categoria-icon {
+      font-size: 30px; 
+  }
+</style>
+
+<div class="list-group">
+    {% for categoria in categorias %}
+      <a href="categoria/{{categoria.id}}" class="list-group-item"> 
+        <span>{{ categoria.nombre }}</span>
+        <i class="{{ categoria.icon_class }} categoria-icon"></i>  <!-- Añade una clase CSS específica -->
+      </a>
+    {% endfor %}
+</div>
