@@ -9,9 +9,10 @@ app_name = 'tienda'
 urlpatterns = [
     path('', views.index, name='index'),
     path('producto/<int:id>', views.producto, name='producto'),
-    path('categoria/<int:id>', views.categoria, name='categoria')
-]
+    path('categoria/<int:id>', views.categoria, name='categoria'),
+    # Esta url es para consumir la api rest
+    path('api/', views.IndexApi.as_view(), name='api'),
+    path('api/productos', views.ProductosApi.as_view(), name='api-productos'),
+    path('api/producto/<int:id>', views.ProductoDetailView.as_view(), name='api-producto'),
 
-if settings.DEBUG:
-        urlpatterns += static(settings.MEDIA_URL,
-                              document_root=settings.MEDIA_ROOT)
+]

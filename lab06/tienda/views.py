@@ -2,6 +2,7 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from .serializer import ProductoSerializer
 from django.shortcuts import get_object_or_404, render
 from .models import Categoria, Producto
 
@@ -36,7 +37,7 @@ def categoria(request, id):
     }
     return render(request, 'categories.html', context)
 
-# creat viw for to consume api rest full
+# creating view for to consume api rest full
 class IndexApi(APIView):
     def get(self, request):
         context = {
@@ -47,3 +48,9 @@ class IndexApi(APIView):
 class ProductosApi(ListCreateAPIView):
     queryset = Producto.objects.all()
     serializer_class = ProductoSerializer
+
+class ProductoDetailView(RetrieveUpdateDestroyAPIView):
+    queryset = Producto.objects.all()
+    serializer_class = ProductoSerializer
+    lookup_field = 'id' # esto deve ser la misma variable que se pasa en la url
+ 
