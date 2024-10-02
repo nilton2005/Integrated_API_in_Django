@@ -2,7 +2,7 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from .serializer import ProductoSerializer
+from .serializer import ProductoSerializer, CategoriaSerializer
 from django.shortcuts import get_object_or_404, render
 from .models import Categoria, Producto
 
@@ -10,7 +10,7 @@ from .models import Categoria, Producto
 #add product wit bucle for, create a directory fron save data of the products
 
 def index(request):
-    productos = Producto.objects.order_by('nombre')[:6]
+    productos = Producto.objects.order_by('nombre')[:10]
     categorias = Categoria.objects.all()
     context = {'productos': productos, 'categorias': categorias}
     for producto in productos:
@@ -29,7 +29,6 @@ def producto(request, id):
 def categoria(request, id):
     productos = Producto.objects.filter(categoria_id = id) 
     categorias = Categoria.objects.all()
-    categoria = Categoria.objects.delete(id)
     for producto in productos:
         print(producto.nombre)
     context = {
@@ -44,7 +43,7 @@ class IndexApi(APIView):
             'message': 'servidor activo'
         }
         return Response(context)
-
+# for products
 class ProductosApi(ListCreateAPIView):
     queryset = Producto.objects.all()
     serializer_class = ProductoSerializer
@@ -53,4 +52,16 @@ class ProductoDetailView(RetrieveUpdateDestroyAPIView):
     queryset = Producto.objects.all()
     serializer_class = ProductoSerializer
     lookup_field = 'id' # esto deve ser la misma variable que se pasa en la url
+
+# for categories
+
+class CategoriasApi(ListCreateAPIView):
+    queryset = Categoria.objects.all()
+    serializer_class = CategoriaSerializer
+
+class CategoriDetailView(RetrieveUpdateDestroyAPIView):
+    queryset = Categoria.objects.all()
+    serializer_class = CategoriaSerializer
+    lookup_field = 'id'
+
  
